@@ -1,0 +1,27 @@
+# ESQUELETO. Só roda manualmente (workflow_dispatch). NÃO dispara em push/PR e não foi executado.
+# O passo a passo real está em docs/DEPLOY.md (Fase 1.F). Preencha os segredos no ambiente "production".
+name: Deploy (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Tag ou commit a publicar"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production # configure "required reviewers" neste ambiente
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+      - name: Placeholder
+        run: |
+          echo "Deploy ainda não configurado. Ver docs/DEPLOY.md."
+          exit 1

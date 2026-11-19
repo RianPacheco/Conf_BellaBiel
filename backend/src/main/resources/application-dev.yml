@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    password: ${DB_PASSWORD:bellabiel_dev}
+  flyway:
+    # seed de exemplo (Fase 1) só existe no perfil dev
+    locations: classpath:db/migration,classpath:db/dev
+server:
+  error:
+    include-message: never
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+app:
+  cors:
+    allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:4200}
+logging:
+  level:
+    br.com.bellabiel: DEBUG
