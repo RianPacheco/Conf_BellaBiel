@@ -1,0 +1,25 @@
+# Desenvolvimento local: apenas o Postgres. Backend e frontend rodam na máquina:
+#   docker compose up -d
+#   (cd backend && ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev)
+#   (cd frontend && npm start)
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-bellabiel}
+      POSTGRES_USER: ${POSTGRES_USER:-bellabiel}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?defina POSTGRES_PASSWORD no .env}
+      TZ: UTC
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-bellabiel} -d ${POSTGRES_DB:-bellabiel}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pgdata:

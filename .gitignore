@@ -1,0 +1,17 @@
+# Segredos e ambiente local
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Dados locais
+uploads/
+backups/
+*.dump
+
+# IDEs / SO
+.idea/
+.vscode/
+*.iml
+.DS_Store
