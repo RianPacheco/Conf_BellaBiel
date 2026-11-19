@@ -72,7 +72,7 @@ Dividida em marcos (commits/sub-PRs revisáveis dentro da mesma branch/PR de fas
 |---|---|
 | CRUD de pedido + itens + snapshot de preço/endereço | Total calculado no servidor; edição restrita por status |
 | `PedidoStatusMachine` + histórico | **Tabela de teste com todas as combinações de (de, para, papel)**; inválidas → 409 |
-| Baixa automática em `EM_PRODUCAO` e estorno no cancelamento | Movimentações geradas e rastreáveis ao pedido; sem estoque → 422 com lista de faltantes e **nada** persistido (rollback) |
+| Baixa automática em `EM_PRODUCAO` e estorno no cancelamento | Movimentações rastreáveis ao pedido; sem estoque **não bloqueia**: consome o que houver, cria pendência com aviso amarelo, que pode ser resolvida ou dispensada; cancelamento pede destino (estoque/perda) |
 | Pagamentos (sinal e parciais), saldo a pagar | Não excede o total; estorno de pagamento |
 | Foto de referência (upload) | jpeg/png/webp ≤ 5 MB; EXIF removido; nome randômico |
 | Botão/endpoint wa.me | Mensagem montada a partir de modelo configurável; nenhum envio automático |

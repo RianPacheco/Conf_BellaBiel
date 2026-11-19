@@ -28,6 +28,8 @@ erDiagram
     PEDIDO }o--o| ARQUIVO : "foto de referencia"
     PEDIDO }o--o| ENDERECO : "entrega em"
     PEDIDO ||--o{ MOVIMENTACAO_ESTOQUE : "origina baixa/estorno"
+    PEDIDO ||--o{ PEDIDO_PENDENCIA_ESTOQUE : "pode ter"
+    INSUMO ||--o{ PEDIDO_PENDENCIA_ESTOQUE : "em falta"
 
     PRODUTO }o--o| ARQUIVO : foto
 
@@ -185,6 +187,16 @@ erDiagram
         text observacao
         timestamptz estornado_em
     }
+    PEDIDO_PENDENCIA_ESTOQUE {
+        bigint id PK
+        bigint pedido_id FK
+        bigint insumo_id FK
+        numeric quantidade_faltante
+        varchar status "ABERTA|RESOLVIDA|DISPENSADA"
+        text justificativa "obrigatoria ao dispensar"
+        timestamptz tratada_em
+        bigint tratada_por
+    }
     PEDIDO_STATUS_HISTORICO {
         bigint id PK
         bigint pedido_id FK
@@ -193,6 +205,7 @@ erDiagram
         bigint usuario_id
         timestamptz ocorrido_em
         text motivo
+        varchar destino_insumos "ESTOQUE|PERDA, so no cancelamento"
     }
     ARQUIVO {
         uuid id PK

@@ -120,9 +120,9 @@ Terminais: ENTREGUE, RETIRADO, CANCELADO. Toda transição grava `pedido_status_
 1. Para cada item: consumo = `quantidade_item × quantidade_na_ficha ÷ rendimento` por insumo.
 2. Agrega por insumo; consome lotes por **FEFO** (menor validade primeiro; lotes vencidos não são consumidos).
 3. Cada consumo gera uma `movimentacao_estoque` (`SAIDA_PRODUCAO`, lote, quantidade, `pedido_id`). **O saldo do lote só muda junto com uma movimentação** (invariante imposta por um único método de serviço e por constraint/trigger de verificação em teste).
-4. Estoque insuficiente → regra pendente (Q-05); por padrão a transição é bloqueada com a lista de insumos faltantes.
+4. **Estoque insuficiente não bloqueia** (decisão Q-05): consome-se o que houver e o restante vira **pendência de estoque** (`pedido_pendencia_estoque`: pedido, insumo, quantidade faltante, status `ABERTA|RESOLVIDA|DISPENSADA`, quem/quando/justificativa). O pedido segue para produção com **aviso amarelo** (pedido, fila de produção, painel). Com saldo disponível a pessoa pode **resolver** (baixa o que faltava, gerando movimentação) ou **dispensar** o aviso (justificativa obrigatória, auditado). O saldo do lote continua sem nunca ficar negativo.
 
-**Cancelamento** com baixa já feita: gera movimentações `ESTORNO` devolvendo a quantidade **aos mesmos lotes** de onde saiu (rastreável pela movimentação original). Pendente Q-06 se após `PRONTO` o insumo é devolvido ou vira perda.
+**Cancelamento** com baixa já feita (decisão Q-06): a pessoa escolhe `destinoInsumos`. `ESTOQUE` → movimentações `ESTORNO` devolvendo a quantidade **aos mesmos lotes** de onde saiu (rastreável pela movimentação original). `PERDA` → nada é devolvido; a saída original fica marcada como perda. Pendências de estoque abertas são encerradas.
 
 **Custo e margem do produto**: custo = Σ(qtd_insumo × custo_unitário) ÷ rendimento; margem = (preço − custo) ÷ preço. Custo unitário do insumo: ver Q-07 (padrão proposto: custo médio ponderado dos lotes com saldo).
 

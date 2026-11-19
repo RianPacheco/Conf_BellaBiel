@@ -69,7 +69,10 @@
 | `GET /pedidos/{id}` | detalhe (itens, pagamentos, histórico, saldo a pagar) | A G T P |
 | `PUT /pedidos/{id}` | editar (conforme status — regras em Q-04) | A G T |
 | `DELETE /pedidos/{id}` | soft delete (apenas ORCAMENTO/CANCELADO) | A G |
-| `POST /pedidos/{id}/transicoes` | corpo `{para, motivo?}` → aplica máquina de estados; `409` se inválida; `422` se estoque insuficiente | por transição (tabela abaixo) |
+| `POST /pedidos/{id}/transicoes` | corpo `{para, motivo?, destinoInsumos?}` → aplica máquina de estados; `409` se inválida; `destinoInsumos` (`ESTOQUE`\|`PERDA`) obrigatório ao cancelar pedido já em produção. Falta de estoque **não bloqueia**: devolve `pendenciasEstoque[]` | por transição (tabela abaixo) |
+| `GET /pedidos/{id}/pendencias-estoque` | pendências de estoque do pedido | A G T P |
+| `POST /pedidos/{id}/pendencias-estoque/{pid}/resolver` | baixa o que faltava (exige saldo) | A G P |
+| `POST /pedidos/{id}/pendencias-estoque/{pid}/dispensar` | remove o aviso; `{justificativa}` obrigatória | A G P |
 | `GET /pedidos/{id}/historico` | histórico de status | A G T P |
 | `GET/POST /pedidos/{id}/pagamentos` | listar / registrar sinal ou pagamento parcial | A G T |
 | `POST /pedidos/{id}/pagamentos/{pagId}/estornar` | estorna pagamento (motivo) | A G |
@@ -81,12 +84,12 @@
 | De → Para | Efeito | Quem |
 |---|---|---|
 | ORCAMENTO → CONFIRMADO | valida cliente, itens, data futura | A G T |
-| CONFIRMADO → EM_PRODUCAO | **baixa de estoque** (FEFO) + movimentações | A G P |
+| CONFIRMADO → EM_PRODUCAO | **baixa de estoque** (FEFO) do que houver + pendência para o que faltar | A G P |
 | EM_PRODUCAO → PRONTO | grava `pronto_em` | A G P |
 | PRONTO → ENTREGUE (tipo ENTREGA) | grava `entregue_em` | A G T |
 | PRONTO → RETIRADO (tipo RETIRADA) | grava `entregue_em` | A G T |
 | ORCAMENTO/CONFIRMADO → CANCELADO | sem estoque a estornar | A G T |
-| EM_PRODUCAO/PRONTO → CANCELADO | **estorno** (Q-06) | A G |
+| EM_PRODUCAO/PRONTO → CANCELADO | destino dos insumos escolhido: **estorno** ou **perda** (Q-06) | A G |
 | qualquer outra | `409 Conflict` | — |
 
 ## Arquivos
@@ -139,4 +142,4 @@
 
 ## Códigos de erro padronizados
 
-`400` validação (com `errors[]`) · `401` não autenticado/token expirado · `403` papel insuficiente · `404` inexistente (ou fora do escopo do papel) · `409` transição inválida / conflito de versão / duplicidade · `413` arquivo > 5 MB · `415` tipo de arquivo não permitido · `422` regra de negócio (estoque insuficiente, pagamento > saldo) · `423` conta bloqueada temporariamente · `429` rate limit · `500` genérico, sem detalhes (com `traceId`).
+`400` validação (com `errors[]`) · `401` não autenticado/token expirado · `403` papel insuficiente · `404` inexistente (ou fora do escopo do papel) · `409` transição inválida / conflito de versão / duplicidade · `413` arquivo > 5 MB · `415` tipo de arquivo não permitido · `422` regra de negócio (pagamento > saldo, resolver pendência sem saldo) · `423` conta bloqueada temporariamente · `429` rate limit · `500` genérico, sem detalhes (com `traceId`).

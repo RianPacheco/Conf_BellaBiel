@@ -1,28 +1,28 @@
 # Perguntas em aberto e premissas
 
-> Status: **aguardando respostas**. Para cada pergunta há um **padrão proposto**. Se você responder apenas "aprovado", adoto os padrões e os registro como premissas na PR de cada fase. Prioridade: 🔴 bloqueia o início da Fase 1 · 🟡 precisa antes do marco indicado · 🟢 pode seguir com o padrão.
+> Status: **decisões parciais registradas em 19/11/2026** (ver seção C). Demais itens seguem o padrão proposto até serem revistos. Para cada pergunta há um **padrão proposto**. Se você responder apenas "aprovado", adoto os padrões e os registro como premissas na PR de cada fase. Prioridade: 🔴 bloqueia o início da Fase 1 · 🟡 precisa antes do marco indicado · 🟢 pode seguir com o padrão.
 
 ## A. Perguntas
 
 ### Processo
 | # | Pergunta | Padrão proposto |
 |---|---|---|
-| Q-01 🔴 | Este ambiente está configurado para eu desenvolver na branch `claude/relaxed-knuth-ytfqis`. Você pediu `feature/fase-N-descricao`. Posso criar e dar push nessas branches (e abrir uma PR por fase)? | Sim: `feature/fase-0-scaffolding`, `feature/fase-1-nucleo`… PR só quando você mandar abrir |
+| Q-01 ✅ | (aprovado) Este ambiente está configurado para eu desenvolver na branch `claude/relaxed-knuth-ytfqis`. Você pediu `feature/fase-N-descricao`. Posso criar e dar push nessas branches (e abrir uma PR por fase)? | Sim: `feature/fase-0-scaffolding`, `feature/fase-1-nucleo`… PR só quando você mandar abrir |
 | Q-26 🟢 | A preparação de deploy (Dockerfiles, compose prod, Caddy, backup, DEPLOY.md, RESTAURACAO.md) não está atribuída a uma fase. Em qual entrar? | Fim da Fase 1 (marco 1.F); esqueleto de CI/deploy na Fase 0 |
 | Q-23 🟢 | `groupId`/pacote Java e nome dos artefatos | `br.com.bellabiel.erp`; artefatos `bellabiel-api` e `bellabiel-web` |
 
 ### Acesso e permissões
 | # | Pergunta | Padrão proposto |
 |---|---|---|
-| Q-03 🔴 | Matriz de permissões. Em que **GERENTE** difere de **ADMIN**? Quem pode ver **custo e margem**? Quem gerencia usuários? | ADMIN: tudo + usuários + configurações. GERENTE: tudo exceto usuários/configurações. ATENDENTE: clientes, pedidos (até CONFIRMADO, entrega/retirada), pagamentos; **não vê custo/margem**. PRODUCAO: pedidos CONFIRMADO+ (somente leitura + EM_PRODUCAO/PRONTO), insumos e estoque; não vê preços de venda nem financeiro. Painel: A/G completo; T e P só o que dizem respeito ao papel |
+| Q-03 ⏸ | (adiada) Matriz de permissões. Em que **GERENTE** difere de **ADMIN**? Quem pode ver **custo e margem**? Quem gerencia usuários? | ADMIN: tudo + usuários + configurações. GERENTE: tudo exceto usuários/configurações. ATENDENTE: clientes, pedidos (até CONFIRMADO, entrega/retirada), pagamentos; **não vê custo/margem**. PRODUCAO: pedidos CONFIRMADO+ (somente leitura + EM_PRODUCAO/PRONTO), insumos e estoque; não vê preços de venda nem financeiro. Painel: A/G completo; T e P só o que dizem respeito ao papel |
 | Q-18 🟡 (1.A) | Recuperação de senha sem e-mail (integrações fora do v1): como? | ADMIN redefine e gera senha temporária (troca obrigatória). Para o ADMIN, procedimento documentado via variável de ambiente/CLI. Reset por e-mail só quando houver SMTP |
 
 ### Pedidos e estoque
 | # | Pergunta | Padrão proposto |
 |---|---|---|
 | Q-04 🔴 | Transições: pode **voltar** de estágio (ex.: EM_PRODUCAO → CONFIRMADO, "reabrir" um ENTREGUE por erro)? Edição de pedido após confirmado? | Sem retrocesso nem reabertura. Itens/valores só editáveis em ORCAMENTO; depois de CONFIRMADO só data/observações/endereço (auditado). Correção de erro = cancelar e refazer. Exceção opcional: ADMIN reabre `CANCELADO` — ainda **não** previsto |
-| Q-05 🔴 | Ao iniciar produção com **estoque insuficiente**: bloquear, permitir saldo negativo ou permitir com autorização? | **Bloquear** (422 com lista de insumos faltantes). GERENTE/ADMIN pode "forçar" com justificativa → registra movimentação de `AJUSTE` automática? (não implementar a menos que você confirme) |
-| Q-06 🔴 | Cancelar um pedido **EM_PRODUCAO ou PRONTO**: devolve os insumos ao estoque (você pediu "cancelar estorna") ou, se a produção já ocorreu, vira **perda**? | Estorna sempre aos lotes originais, como pedido. Se o insumo já foi usado, o usuário faz depois um lançamento de `PERDA` manual com motivo |
+| Q-05 ✅ | Estoque insuficiente ao iniciar produção | **Decidido**: não bloqueia; aviso amarelo; dispensável (seção C) |
+| Q-06 ✅ | Cancelar pedido EM_PRODUCAO/PRONTO | **Decidido**: a pessoa escolhe o destino dos insumos (estoque ou perda) — seção C |
 | Q-07 🟡 (1.B) | Custo do insumo para o cálculo do custo/margem do produto: por **custo médio ponderado dos lotes com saldo**, **último custo de entrada**, ou **custo do lote que seria consumido (FEFO)**? | Custo médio ponderado dos lotes com saldo; se não houver saldo, último custo de entrada |
 | Q-08 🟡 (1.B) | Unidades e receita: insumo tem **uma unidade base** (g, ml, un); a receita é na unidade do insumo. Cada produto tem **rendimento** (ex.: receita rende 24 macarons). Produto **sem ficha técnica** (ex.: item revendido): bloqueia a produção ou é ignorado na baixa? | Unidade base única por insumo, sem conversão automática (kg↔g só na entrada via campo de unidade de compra opcional). Rendimento obrigatório com padrão 1. Produto sem ficha: **ignorado na baixa** (com aviso visível no pedido) |
 | Q-15 🟡 (1.D) | **Sinal**: é obrigatório para confirmar o pedido? Qual o valor mínimo (valor fixo ou %)? | Não obrigatório; sistema só registra e mostra saldo a pagar. Se quiser regra (ex.: 30 % para encomendas acima de R$ X), me diga |
@@ -81,3 +81,19 @@
 23. Cookies e política de privacidade: o sistema usa apenas cookie estritamente necessário (refresh); sem analytics/trackers, portanto **sem banner de consentimento**.
 
 **Fora do escopo v1 (reconfirmado)**: integrações externas, nota fiscal, PWA, dark mode, multi-idioma, múltiplas moedas.
+
+## C. Decisões registradas
+
+| # | Decisão | Observação |
+|---|---|---|
+| Q-01 | **Aprovado**: branches `feature/fase-N-descricao`, uma PR por fase (PR só quando for pedida) | — |
+| Q-03 | **Adiada**: matriz de permissões será definida depois. Enquanto isso vale o padrão de Q-03 (ADMIN/GERENTE/ATENDENTE/PRODUCAO), implementado de forma centralizada para ser fácil de ajustar | Matriz fica em um único lugar (`Permissoes`) + tabela em API.md |
+| Q-05 | **Não bloquear** a produção por falta de estoque. O sistema **relata a falta**, o pedido fica com **aviso amarelo** e **a pessoa pode dispensar o aviso** quando houver o insumo em estoque | Ver "Pendência de estoque" em ARQUITETURA.md §4.4. O saldo **nunca** fica negativo |
+| Q-06 | No cancelamento de pedido já em produção, a pessoa **escolhe para onde os insumos vão**: voltam ao **estoque** (estorno) ou viram **perda** | Campo `destinoInsumos` (`ESTOQUE` \| `PERDA`) obrigatório nesse caso |
+| Demais regras de negócio (Q-04, Q-07 a Q-16 etc.) | **Adiadas** ("depois entendemos"). Usar os padrões propostos e registrá-los como premissa em cada PR; revisaremos com você antes da Fase 1.D/1.E | — |
+
+### Premissas que decorrem de Q-05 e Q-06 (confirmar quando revisarmos)
+1. Ao passar para EM_PRODUCAO, consome-se (FEFO) **o que houver**; o que faltar vira uma **pendência de estoque** (pedido, insumo, quantidade faltante) com status `ABERTA`. O pedido segue para produção.
+2. Pendência `ABERTA` mostra badge **amarelo** no pedido, na fila de produção e no painel.
+3. Com saldo disponível, a pessoa pode **Resolver** (baixa automática do que faltava, gerando movimentação) ou **Dispensar** o aviso (sem baixa, com justificativa obrigatória, auditado).
+4. Cancelamento com destino `PERDA`: não há devolução; a saída original fica registrada como perda (relatório de perdas na Fase 3). Pendências abertas são encerradas ao cancelar.
