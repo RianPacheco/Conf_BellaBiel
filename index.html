@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bella Biel Confeitaria - ERP</title>
+<link href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%82%3C/text%3E%3C/svg%3E" rel="icon"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Geist:wght@400;500;600;700&amp;family=Alex+Brush&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .font-geist { font-family: 'Geist', sans-serif; }
+        
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Micro-interactions */
+        .hover-lift {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e8d2d6; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #b98890; }
+
+        .glass-header {
+            backdrop-filter: blur(8px);
+            background: rgba(253, 246, 245, 0.8);
+        }
+
+        .font-script {
+            font-family: 'Alex Brush', cursive;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-fixed": "#2e2400",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#f3dfe1",
+                        "surface-bright": "#fffbfa",
+                        "inverse-surface": "#362026",
+                        "background": "#fdf6f5",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#f6ecd0",
+                        "error": "#ba1a1a",
+                        "primary-container": "#f8dde4",
+                        "inverse-primary": "#f0b8c6",
+                        "secondary": "#8a6a5a",
+                        "surface-dim": "#e6d2d5",
+                        "primary-fixed-dim": "#e3a9b8",
+                        "on-secondary-fixed-variant": "#6b503f",
+                        "surface-tint": "#8a3349",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#6b5518",
+                        "surface-container-highest": "#eed4d7",
+                        "on-secondary": "#ffffff",
+                        "primary": "#8a3349",
+                        "secondary-container": "#f3e3da",
+                        "surface-container": "#f9e9ea",
+                        "secondary-fixed": "#f3e3da",
+                        "on-primary": "#ffffff",
+                        "outline": "#a98890",
+                        "inverse-on-surface": "#fbeaea",
+                        "tertiary-fixed-dim": "#d4b45e",
+                        "on-secondary-fixed": "#2e2015",
+                        "on-background": "#362026",
+                        "on-primary-container": "#5c1f30",
+                        "outline-variant": "#e8d2d6",
+                        "primary-fixed": "#f8dde4",
+                        "on-tertiary-container": "#5c4712",
+                        "tertiary": "#8a6a1f",
+                        "surface": "#fffbfa",
+                        "secondary-fixed-dim": "#d1b3a1",
+                        "on-surface-variant": "#6e5257",
+                        "on-surface": "#362026",
+                        "on-primary-fixed-variant": "#6b2438",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#f6ecd0",
+                        "surface-variant": "#f2dee1",
+                        "on-secondary-container": "#5c4535",
+                        "on-primary-fixed": "#3a0f1c",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#fdf1f1"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        "label-md": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "code-sm": ["Geist"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Geist"],
+                        "body-md": ["Inter"]
+                    },
+                    fontSize: {
+                        "label-md": ["12px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                        "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface">
+<!-- SideNavBar Shell -->
+<aside class="fixed left-0 top-0 h-full flex flex-col z-40 h-screen w-64 border-r border-outline-variant bg-surface">
+<div class="p-6 pb-5 border-b border-outline-variant/70 flex items-center gap-3">
+<svg class="w-9 h-9 text-primary flex-shrink-0" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 100 100">
+<path d="M40 18 Q40 12 46 12 L54 12 Q60 12 60 18 L60 30 L40 30 Z"></path>
+<path d="M30 30 L70 30 L70 48 L30 48 Z"></path>
+<path d="M18 48 L82 48 L82 66 L18 66 Z"></path>
+<path d="M10 74 Q20 66 30 74 T50 74 T70 74 Q80 66 90 74" stroke-width="2.2"></path>
+<circle cx="24" cy="70" r="4"></circle>
+<path d="M74 62 L84 62 L82 74 L76 74 Z"></path>
+<path d="M73 62 Q79 52 85 62" stroke-width="2.2"></path>
+</svg>
+<div class="leading-none">
+<h1 class="font-script text-[28px] leading-none text-primary">Bella Biel</h1>
+<p class="font-label-md text-[10px] text-on-surface-variant mt-1 tracking-[0.25em] uppercase">Confeitaria</p>
+</div>
+</div>
+<nav class="flex-1 px-4 mt-4 space-y-1">
+<!-- Active State Navigation -->
+<a class="flex items-center gap-3 px-4 py-3 text-primary font-medium border-l-2 border-primary bg-primary-container/10 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Painel</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span class="font-label-md text-label-md">Vendas</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="bakery_dining">bakery_dining</span>
+<span class="font-label-md text-label-md">Produção</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-md text-label-md">Estoque</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-md text-label-md">Financeiro</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Configurações</span>
+</a>
+</nav>
+<div class="mt-auto p-4 border-t border-outline-variant">
+<button class="w-full py-3 px-4 mb-4 bg-primary text-on-primary rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+                Novo Pedido
+            </button>
+<div class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="help">help</span>
+<span class="font-label-md text-label-md">Ajuda</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-error transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Sair</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- TopNavBar Shell -->
+<header class="flex justify-between items-center px-6 py-2 ml-64 w-[calc(100%-16rem)] sticky top-0 z-30 h-16 border-b border-outline-variant glass-header">
+<div class="flex items-center bg-surface-container rounded-full px-4 py-1.5 w-96 border border-outline-variant focus-within:ring-2 focus-within:ring-primary/20 transition-all">
+<span class="material-symbols-outlined text-outline" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-full ml-2 text-on-surface" placeholder="Buscar pedidos, clientes ou produtos..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-container-low rounded-full transition-all text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 hover:bg-surface-container-low rounded-full transition-all text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-outline-variant">
+<div class="text-right">
+<p class="font-label-md text-label-md font-bold text-on-surface">Admin Bella Biel</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Gestora Master</p>
+</div>
+<img alt="Foto de perfil da administradora" class="w-8 h-8 rounded-full border border-primary/20 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5YkBbI_hO-2484Xa9TWwdudb1lbdApqW39Zrgq5tOzxqYiSikAmqjJkqIjFnqAcEumg0kGeGUWPwWFqLuxUnlDYsPG0tRSdMfmJdeppf7L4e_MBeooHuVE0AjntuQF8HPGYLaE3wIIIMSSyGrDTFbe84JgpN4pH9sFdB3ni65Vcxw-dhiKHhZOZyQUFWwMuHKDY0lGwc_ao6494bopQuMSujSumCUp_tjIU3E5kyY1h4emiPrg8dPv3IC9ga7yAHGvqEoRGag_0g"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 p-8 w-[calc(100%-16rem)] min-h-screen">
+<!-- Welcome Header -->
+<div class="mb-8">
+<h2 class="font-headline-lg text-headline-lg text-primary">Painel Principal</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Bem-vindo de volta! Aqui está o resumo da sua confeitaria hoje.</p>
+</div>
+<!-- AI Alertas -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+<div class="flex items-center gap-4 p-4 bg-primary-fixed text-on-primary-fixed border border-primary/10 rounded-xl">
+<div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div>
+<p class="font-label-md text-label-md font-bold">Sugerida compra de Farinha de Amêndoas</p>
+<p class="text-[12px] opacity-80">Estoque projetado para acabar em 48h com base nos pedidos pendentes.</p>
+</div>
+<button class="ml-auto px-3 py-1 bg-primary text-on-primary rounded text-[11px] font-bold">Comprar</button>
+</div>
+<div class="flex items-center gap-4 p-4 bg-tertiary-fixed text-on-tertiary-fixed border border-tertiary/10 rounded-xl">
+<div class="w-10 h-10 bg-tertiary/10 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary" data-icon="tips_and_updates" style="font-variation-settings: 'FILL' 1;">tips_and_updates</span>
+</div>
+<div>
+<p class="font-label-md text-label-md font-bold">Otimização de escala disponível</p>
+<p class="text-[12px] opacity-80">Recomendação: agrupar produção de 'Macarons' para amanhã às 08:00.</p>
+</div>
+<button class="ml-auto px-3 py-1 bg-tertiary text-on-tertiary rounded text-[11px] font-bold">Aplicar</button>
+</div>
+</div>
+<!-- KPI Resumo -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<div class="bg-surface border border-outline-variant p-6 rounded-xl hover-lift shadow-sm">
+<p class="text-on-surface-variant font-label-md text-label-md">Faturamento Mensal</p>
+<div class="flex items-end justify-between mt-2">
+<h3 class="font-headline-md text-headline-md font-bold text-primary">R$ 42.850</h3>
+<span class="flex items-center text-on-tertiary-container bg-tertiary-container/10 px-2 py-0.5 rounded text-[12px] font-bold">
+<span class="material-symbols-outlined text-[16px]" data-icon="arrow_upward">arrow_upward</span>
+                        12%
+                    </span>
+</div>
+</div>
+<div class="bg-surface border border-outline-variant p-6 rounded-xl hover-lift shadow-sm">
+<p class="text-on-surface-variant font-label-md text-label-md">Pedidos Pendentes</p>
+<div class="flex items-end justify-between mt-2">
+<h3 class="font-headline-md text-headline-md font-bold text-primary">24</h3>
+<span class="text-on-surface-variant text-[12px]">8 para hoje</span>
+</div>
+</div>
+<div class="bg-surface border border-outline-variant p-6 rounded-xl hover-lift shadow-sm">
+<p class="text-on-surface-variant font-label-md text-label-md">Insumos a Vencer</p>
+<div class="flex items-end justify-between mt-2">
+<h3 class="font-headline-md text-headline-md font-bold text-error">03</h3>
+<span class="text-error text-[12px] font-medium">Urgente</span>
+</div>
+</div>
+<div class="bg-surface border border-outline-variant p-6 rounded-xl hover-lift shadow-sm">
+<p class="text-on-surface-variant font-label-md text-label-md">Taxa de Entrega</p>
+<div class="flex items-end justify-between mt-2">
+<h3 class="font-headline-md text-headline-md font-bold text-primary">98.5%</h3>
+<span class="text-on-surface-variant text-[12px]">No prazo</span>
+</div>
+</div>
+</div>
+<!-- Bento Grid Section -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Vendas Trend Chart -->
+<div class="col-span-12 lg:col-span-8 bg-surface border border-outline-variant p-6 rounded-xl shadow-sm">
+<div class="flex items-center justify-between mb-8">
+<h4 class="font-headline-md text-[18px] text-primary">Tendência de Vendas</h4>
+<select class="bg-surface-container-low border-none rounded-lg text-label-md focus:ring-1 focus:ring-primary/20">
+<option>Últimos 7 dias</option>
+<option>Último mês</option>
+</select>
+</div>
+<div class="h-64 relative w-full flex items-end justify-between gap-2 px-2">
+<!-- Simulated Graph with CSS -->
+<div class="w-full bg-primary-container/10 rounded-t h-[40%] hover:bg-primary-container/30 transition-all cursor-pointer relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-on-primary text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">R$4k</div>
+</div>
+<div class="w-full bg-primary-container/10 rounded-t h-[55%] hover:bg-primary-container/30 transition-all cursor-pointer relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-on-primary text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">R$5.5k</div>
+</div>
+<div class="w-full bg-primary-container/10 rounded-t h-[35%] hover:bg-primary-container/30 transition-all cursor-pointer relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-on-primary text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">R$3.5k</div>
+</div>
+<div class="w-full bg-primary-container/10 rounded-t h-[85%] hover:bg-primary-container/30 transition-all cursor-pointer relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-on-primary text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">R$8.5k</div>
+</div>
+<div class="w-full bg-primary-container/10 rounded-t h-[70%] hover:bg-primary-container/30 transition-all cursor-pointer relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-on-primary text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">R$7k</div>
+</div>
+<div class="w-full bg-primary-container/10 rounded-t h-[95%] hover:bg-primary-container/30 transition-all cursor-pointer relative group border-t-2 border-primary">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-on-primary text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">R$9.5k</div>
+</div>
+<div class="w-full bg-primary-container/10 rounded-t h-[60%] hover:bg-primary-container/30 transition-all cursor-pointer relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-on-primary text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">R$6k</div>
+</div>
+</div>
+<div class="flex justify-between mt-4 text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">
+<span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span><span>Dom</span>
+</div>
+</div>
+<!-- Próximas Entregas -->
+<div class="col-span-12 lg:col-span-4 bg-surface border border-outline-variant p-6 rounded-xl shadow-sm overflow-hidden flex flex-col">
+<div class="flex items-center justify-between mb-6">
+<h4 class="font-headline-md text-[18px] text-primary">Próximas Entregas</h4>
+<span class="text-primary text-[12px] font-bold cursor-pointer hover:underline">Ver todas</span>
+</div>
+<div class="space-y-4 overflow-y-auto pr-2 max-h-[340px]">
+<!-- Entrega Item 1 -->
+<div class="flex items-center gap-4 p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors border border-transparent hover:border-outline-variant cursor-pointer group">
+<div class="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+<img alt="Bolo de casamento de três andares com cobertura branca" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDG4rRZ0bLCM_Tt_v-lR_tNZ7XOFEMIf91zh50pf6qjfMKfBRhThCNIpNl-XLGdDRfD_TueWpoWZczSSOW0pd1EbDUn_D2R1jRszVNYn8FCzync8xSz75xJVVALIT38VfEuhsWoowxAbgWT1jhLOLubwGbasgU_zF4OJQ-kdGE9nTbdW_5QYME_Is2hNocYl9qGxLje_VWngHdqO4TAijBO6cwpJeQ777PRnsoJWpFPkbZy7aT3B-AOUS7_ihDk91y6PoysK5gyhgc"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-label-md font-bold text-on-surface truncate">Ana Paula Silveira</p>
+<p class="text-[11px] text-on-surface-variant">Bolo Casamento • 14:00</p>
+</div>
+<div class="text-right">
+<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-tertiary-container/10 text-on-tertiary-container uppercase">Produção</span>
+</div>
+</div>
+<!-- Entrega Item 2 -->
+<div class="flex items-center gap-4 p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors border border-transparent hover:border-outline-variant cursor-pointer group">
+<div class="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+<img alt="Macarons franceses coloridos dispostos sobre mármore" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALNIt7nuWMrmVy-c6RNqyG__geqzfrBjCr2uih45F7yJXKrs7JNmySyakeDPg4-9MJeAmivFpqJwnL8tMZyKTwe6iZwncSEjv0nA87NIXvDRmGfAgeqyuk5SDbKBV_3DC_CmJcQpK7Coye5pr4U6e-xwNz9MhSUGr7Ujj7KFra3Pwy-WPfmS44Sw1OLsAiMTycbiEOyTD3olXVCisCljfLr-hUbTR1C5RbMkV758G2DxLO6KYVWMKRuSS828sdd3TuthpvFfmcJLw"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-label-md font-bold text-on-surface truncate">Carlos Eduardo</p>
+<p class="text-[11px] text-on-surface-variant">Kit Macarons • 16:30</p>
+</div>
+<div class="text-right">
+<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-secondary-container/30 text-on-secondary-container uppercase">Orçamento</span>
+</div>
+</div>
+<!-- Entrega Item 3 -->
+<div class="flex items-center gap-4 p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors border border-transparent hover:border-outline-variant cursor-pointer group">
+<div class="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+<img alt="Cupcakes gourmet com cobertura de chocolate e folha dourada" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuApq1h6Gh8pWY7ezZlaG4B_3DM-Hedv7pRkucSBNCdjbBUyweAkJcIqtdYLFfStM6F_FESjHNoEbyFtCUbwP61oRuOm9JI9pyeq4duwcVjjR0tAdSgDykb0cPKnE8eVpzi3HxgOiNqZXpeDFrrGlNy0BDX46j9chFyGITJUv6FlygZ6kQwZvLNASraB30um3qdnWAmEuGx-ts9H4bSdLG8A7O4idhbRShey1QGSDDF775LsrgxW3KGeFdfH-Pl_lYepFjIhCP8T_7U"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-label-md font-bold text-on-surface truncate">Empresa Alpha Tech</p>
+<p class="text-[11px] text-on-surface-variant">50 Cupcakes • Amanhã</p>
+</div>
+<div class="text-right">
+<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-tertiary-container/10 text-on-tertiary-container uppercase">Produção</span>
+</div>
+</div>
+<!-- Entrega Item 4 -->
+<div class="flex items-center gap-4 p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors border border-transparent hover:border-outline-variant cursor-pointer group">
+<div class="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+<img alt="Caixa de brownies artesanais em embalagem premium" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9a8uRSw7ZQ2WByRtRQsIACbNoaEUptnx6PGALj-tu7bcjhRARhoSILS4oR0L0nuIuNcaW3N8TQY87BdcydIHanhNioDyAQfp5PF5jUJbZJP6l5eoBQrRzggPwC0mmw-UjaD5bpWKDomST154G28E7RU3VmI3Feeivo91qhax2NpPtrWrr1lvISJFFxtQol4FAiiRc5IqwXNqMeMlQon0t6Uiy5d7FmKnI2inTBnUrzdMib4Xq9a2bPND1o2flWhISjcmxIbDBZ3Y"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-label-md font-bold text-on-surface truncate">Mariana Dias</p>
+<p class="text-[11px] text-on-surface-variant">Caixa Brownie • 18:00</p>
+</div>
+<div class="text-right">
+<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-tertiary-container/10 text-on-tertiary-container uppercase">Produção</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Secondary Row: Inventory and Tasks -->
+<div class="grid grid-cols-12 gap-6 mt-6">
+<div class="col-span-12 lg:col-span-4 bg-surface border border-outline-variant p-6 rounded-xl shadow-sm">
+<h4 class="font-headline-md text-[18px] text-primary mb-4">Insumos em Alerta</h4>
+<div class="space-y-4">
+<div class="flex justify-between items-center text-body-md">
+<span class="text-on-surface-variant">Farinha de Trigo Especial</span>
+<span class="font-bold text-error">5kg (Crítico)</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5">
+<div class="bg-error h-1.5 rounded-full w-[15%]"></div>
+</div>
+<div class="flex justify-between items-center text-body-md pt-2">
+<span class="text-on-surface-variant">Manteiga sem Sal</span>
+<span class="font-bold text-primary">12kg (Baixo)</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5">
+<div class="bg-primary h-1.5 rounded-full w-[35%]"></div>
+</div>
+</div>
+<button class="w-full mt-6 py-2 border border-primary text-primary font-bold rounded-lg text-label-md hover:bg-primary/5 transition-colors">Gerenciar Estoque</button>
+</div>
+<div class="col-span-12 lg:col-span-8 bg-primary text-on-primary p-8 rounded-xl relative overflow-hidden flex items-center">
+<!-- Background Decoration -->
+<div class="absolute -right-20 -bottom-20 w-80 h-80 bg-on-primary-container opacity-10 rounded-full blur-3xl"></div>
+<div class="relative z-10 flex-1">
+<h3 class="font-display-lg text-[32px] font-bold leading-tight">Potencialize sua produção com IA.</h3>
+<p class="mt-2 text-primary-fixed opacity-90 max-w-lg">Nosso motor de inteligência identificou que você pode economizar até 15% em custos de energia agrupando forneadas noturnas.</p>
+<button class="mt-6 px-6 py-3 bg-on-primary text-primary font-bold rounded-full hover:bg-primary-fixed-dim transition-all shadow-lg flex items-center gap-2">
+                        Conhecer Bella Biel Intelligence
+                        <span class="material-symbols-outlined" data-icon="north_east">north_east</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple interactivity for the dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            const sidebarLinks = document.querySelectorAll('aside nav a');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    sidebarLinks.forEach(l => {
+                        l.classList.remove('text-primary', 'border-l-2', 'border-primary', 'bg-primary-container/10', 'font-medium');
+                        l.classList.add('text-on-surface-variant');
+                    });
+                    link.classList.remove('text-on-surface-variant');
+                    link.classList.add('text-primary', 'border-l-2', 'border-primary', 'bg-primary-container/10', 'font-medium');
+                });
+            });
+        });
+    </script>
+</body></html>
